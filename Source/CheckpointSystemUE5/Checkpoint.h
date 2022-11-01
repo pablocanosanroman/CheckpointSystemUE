@@ -11,8 +11,8 @@ class UStaticMeshComponent;
 class UParticleSystemComponent;
 class USphereComponent;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointActivated, AActor*, pawnInstigator);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCheckpointDeactivated);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointActivatedSignature, AActor*, pawnInstigator);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCheckpointDeactivatedSignature);
 
 UCLASS()
 class CHECKPOINTSYSTEMUE5_API ACheckpoint : public AActor
@@ -24,10 +24,10 @@ public:
 	ACheckpoint();
 
 	UPROPERTY(BlueprintAssignable, Category = "CheckpointEvents")
-	FOnCheckpointActivated onCheckpointActivated;
+	FOnCheckpointActivatedSignature onCheckpointActivated;
 
 	UPROPERTY(BlueprintAssignable, Category= "CheckpoinEvents")
-	FOnCheckpointDeactivated OnCheckpointDeactivated;
+	FOnCheckpointDeactivatedSignature OnCheckpointDeactivated;
 
 protected:
 
@@ -45,6 +45,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	USphereComponent* m_CheckpointCollider;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool m_bHasCheckpointBeenActivated;
+	
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult);
 

@@ -34,10 +34,12 @@ void ACheckpoint::BeginPlay()
 void ACheckpoint::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                  UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if(OtherActor->IsA(APawn::StaticClass()))
+	if(OtherActor->IsA(APawn::StaticClass()) && !m_bHasCheckpointBeenActivated)
 	{
 		onCheckpointActivated.Broadcast(OtherActor);
+		m_bHasCheckpointBeenActivated = true;
 	}
+	
 }
 
 
