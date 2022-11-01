@@ -1,0 +1,22 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{7C4D9336-4C1F-6B4E-2DCB-5A87843AF061}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "CheckpointSystemUE5",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModelingToolsEditorMode",
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		}
+	]
+}
