@@ -27,7 +27,7 @@ public:
 	FOnCheckpointActivatedSignature onCheckpointActivated;
 
 	UPROPERTY(BlueprintAssignable, Category= "CheckpoinEvents")
-	FOnCheckpointDeactivatedSignature OnCheckpointDeactivated;
+	FOnCheckpointDeactivatedSignature onCheckpointDeactivated;
 
 protected:
 
@@ -44,9 +44,6 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	USphereComponent* m_CheckpointCollider;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	bool m_bHasCheckpointBeenActivated;
 	
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult);
