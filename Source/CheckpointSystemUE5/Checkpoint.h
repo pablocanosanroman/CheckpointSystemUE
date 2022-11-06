@@ -6,13 +6,15 @@
 #include "GameFramework/Actor.h"
 #include "Checkpoint.generated.h"
 
+
 class USceneComponent;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
 class USphereComponent;
+class ACheckpoint;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointActivatedSignature, AActor*, pawnInstigator);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCheckpointDeactivatedSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCheckpointActivatedSignature,ACheckpoint*, checkpointCollided, AActor*, pawnInstigator);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointDeactivatedSignature, ACheckpoint*, checkpointCollided);
 
 UCLASS()
 class CHECKPOINTSYSTEMUE5_API ACheckpoint : public AActor
@@ -29,8 +31,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category= "CheckpoinEvents")
 	FOnCheckpointDeactivatedSignature onCheckpointDeactivated;
 
-protected:
-
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -44,6 +44,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	USphereComponent* m_CheckpointCollider;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UParticleSystem* m_ParticleSytemToSet;
 	
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult);

@@ -21,7 +21,10 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<ACheckpoint*> m_Checkpoints;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool m_bReactivationOfCheckpoints;
+
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void CheckpointActivated(AActor* pawnInstigator);
-	virtual void CheckpointActivated_Implementation(AActor* pawnInstigator);
+	void CheckpointActivated(ACheckpoint* checkpointCollided, AActor* pawnInstigator);
+	virtual void CheckpointActivated_Implementation(ACheckpoint* checkpointCollided, AActor* pawnInstigator);
 };

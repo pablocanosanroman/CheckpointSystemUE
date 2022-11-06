@@ -36,7 +36,7 @@ void ACheckpoint::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 {
 	if(OtherActor->IsA(APawn::StaticClass()))
 	{
-		onCheckpointActivated.Broadcast(OtherActor);
+		onCheckpointActivated.Broadcast(this, OtherActor);
 	}
 	
 }
