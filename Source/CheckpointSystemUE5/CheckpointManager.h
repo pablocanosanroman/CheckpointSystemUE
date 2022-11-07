@@ -22,7 +22,7 @@ protected:
 	TArray<ACheckpoint*> m_Checkpoints;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	bool m_bReactivationOfCheckpoints;
+	bool m_bAntiCheatLinearGames;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void CheckpointActivated(ACheckpoint* checkpointCollided, AActor* pawnInstigator);

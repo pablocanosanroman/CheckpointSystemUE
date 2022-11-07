@@ -21,6 +21,9 @@ ACheckpoint::ACheckpoint()
 
 	m_CheckpointCollider = CreateDefaultSubobject<USphereComponent>(TEXT("CheckpointCollider"));
 	m_CheckpointCollider->SetupAttachment(m_Root);
+
+	m_SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("SpawnPoint"));
+	m_SpawnPoint->SetupAttachment(m_Root);
 	
 
 }

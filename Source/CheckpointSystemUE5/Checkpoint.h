@@ -47,7 +47,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UParticleSystem* m_ParticleSytemToSet;
-	
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	USceneComponent* m_SpawnPoint;
+		
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult);
 
