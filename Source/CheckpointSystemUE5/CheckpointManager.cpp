@@ -60,9 +60,53 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 	}
 	else
 	{
-		for(ACheckpoint* checkpoint : m_Checkpoints)
-		{
-			if(m_Checkpoints.Find(m_CurrentCheckpoint) > m_Checkpoints.Find(checkpoint))
+		//for(ACheckpoint* checkpoint : m_Checkpoints)
+		//{
+			if(!m_CheckpointLookUp.Contains(m_ControllerInstigator))
+			{
+				if(m_CurrentCheckpoint == m_Checkpoints[0])
+				{
+					if(m_CurrentCheckpoint->m_CheckpointActivationCheck->Template != m_CurrentCheckpoint->m_ParticleSytemToSet && m_bParticleSystemCheck)
+					{
+						m_CurrentCheckpoint->m_CheckpointActivationCheck->SetTemplate(m_CurrentCheckpoint->m_ParticleSytemToSet);
+						UpdateCheckpointLookUp();
+					}
+				}
+			}
+			else
+			{
+				for(ACheckpoint* checkpoint : m_Checkpoints)
+				{
+					for(int i = 0; i < m_Checkpoints.Find(m_CurrentCheckpoint); i++)
+					{
+						if(m_Checkpoints[i] == m_CurrentCheckpoint)
+						{
+							if(m_CurrentCheckpoint->m_CheckpointActivationCheck->Template != m_CurrentCheckpoint->m_ParticleSytemToSet
+							&& m_bParticleSystemCheck)
+							{
+								m_CurrentCheckpoint->m_CheckpointActivationCheck->SetTemplate(m_CurrentCheckpoint->m_ParticleSytemToSet);
+								UpdateCheckpointLookUp();
+							}
+
+							if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+							{
+								checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+							
+							}
+						}
+						
+					}
+
+					if(m_CurrentCheckpoint != m_Checkpoints[m_Checkpoints.Num() - 1])
+					{
+						//TODO: Find a way to get the next checkpoint on the array to activate it
+					}
+						
+					
+				}
+			}
+
+			/*else if(m_Checkpoints.Find(m_CurrentCheckpoint) > m_Checkpoints.Find(checkpoint))
 			{
 				if(m_CurrentCheckpoint->m_CheckpointActivationCheck->Template != m_CurrentCheckpoint->m_ParticleSytemToSet && m_bParticleSystemCheck)
 				{
@@ -74,11 +118,11 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 					UpdateCheckpointLookUp();
 				}
 			}
+			*/
 			
-			if(m_CurrentCheckpoint != m_Checkpoints[m_Checkpoints.Num() - 1])
+			/*if(m_CurrentCheckpoint != m_Checkpoints[m_Checkpoints.Num() - 1])
 			{
-				
-				if(m_Checkpoints.Find(m_CurrentCheckpoint) > m_Checkpoints.Find(checkpoint))
+				if(m_Checkpoints.Find(m_CurrentCheckpoint) < m_Checkpoints.Find(checkpoint))
 				{
 					if(m_Checkpoints.Find(checkpoint) == m_Checkpoints.Find(m_CurrentCheckpoint + 1))
 					{
@@ -93,8 +137,8 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 						}
 					}
 				}
-			}
-		}
+			}*/
+		//}
 	}
 	
 	//This code sets the particle system to the one desired to check if the checkpoint has been activated

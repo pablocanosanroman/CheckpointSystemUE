@@ -21,6 +21,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<ACheckpoint*> m_Checkpoints;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TMap<AController*, int> m_CheckpointLookUp;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
