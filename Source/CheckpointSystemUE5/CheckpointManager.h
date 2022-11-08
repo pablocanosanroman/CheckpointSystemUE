@@ -28,10 +28,19 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool m_bParticleSystemCheck;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	AController* m_ControllerInstigator;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	ACheckpoint* m_CurrentCheckpoint;
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void CheckpointActivated(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
 	virtual void CheckpointActivated_Implementation(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
+
+	UFUNCTION()
+	void UpdateCheckpointLookUp();
 public:
 	UFUNCTION()
 	FTransform FindPlayerStart(AController* player); 
