@@ -13,7 +13,7 @@ class UParticleSystemComponent;
 class USphereComponent;
 class ACheckpoint;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCheckpointActivatedSignature,ACheckpoint*, checkpointCollided, AActor*, pawnInstigator);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCheckpointActivatedSignature,ACheckpoint*, checkpointCollided, APawn*, pawnInstigator);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointDeactivatedSignature, ACheckpoint*, checkpointCollided);
 
 UCLASS()
@@ -49,7 +49,7 @@ public:
 	UParticleSystem* m_ParticleSytemToSet;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	USceneComponent* m_SpawnPoint;
+	bool m_bOverlapAvailable;
 		
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult);

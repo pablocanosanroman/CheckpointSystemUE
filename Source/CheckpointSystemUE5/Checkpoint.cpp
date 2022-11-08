@@ -22,8 +22,6 @@ ACheckpoint::ACheckpoint()
 	m_CheckpointCollider = CreateDefaultSubobject<USphereComponent>(TEXT("CheckpointCollider"));
 	m_CheckpointCollider->SetupAttachment(m_Root);
 
-	m_SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("SpawnPoint"));
-	m_SpawnPoint->SetupAttachment(m_Root);
 	
 
 }
@@ -37,9 +35,9 @@ void ACheckpoint::BeginPlay()
 void ACheckpoint::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                  UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if(OtherActor->IsA(APawn::StaticClass()))
+	if(OtherActor->IsA(APawn::StaticClass()) && m_bOverlapAvailable)
 	{
-		onCheckpointActivated.Broadcast(this, OtherActor);
+		onCheckpointActivated.Broadcast(this, Cast<APawn>(OtherActor));
 	}
 	
 }

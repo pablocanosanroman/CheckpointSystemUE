@@ -21,10 +21,18 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<ACheckpoint*> m_Checkpoints;
 
+	TMap<AController*, int> m_CheckpointLookUp;
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool m_bAntiCheatLinearGames;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool m_bParticleSystemCheck;
+	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void CheckpointActivated(ACheckpoint* checkpointCollided, AActor* pawnInstigator);
-	virtual void CheckpointActivated_Implementation(ACheckpoint* checkpointCollided, AActor* pawnInstigator);
+	void CheckpointActivated(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
+	virtual void CheckpointActivated_Implementation(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
+public:
+	UFUNCTION()
+	FTransform FindPlayerStart(AController* player); 
 };
