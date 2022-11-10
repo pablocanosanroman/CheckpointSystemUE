@@ -14,6 +14,7 @@ class CHECKPOINTSYSTEMUE5_API ACheckpointManager : public AActor
 {
 	GENERATED_BODY()
 
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -36,13 +37,20 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	ACheckpoint* m_CurrentCheckpoint;
 	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	ACheckpoint* m_NextCheckpoint;
+	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void CheckpointActivated(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
 	virtual void CheckpointActivated_Implementation(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
 
 	UFUNCTION()
 	void UpdateCheckpointLookUp();
+
+	UFUNCTION()
+	void CheckpointActivation();
 public:
 	UFUNCTION()
-	FTransform FindPlayerStart(AController* player); 
+	FTransform FindPlayerStart(AController* player);
+
 };

@@ -29,6 +29,7 @@ ACheckpoint::ACheckpoint()
 void ACheckpoint::BeginPlay()
 {
 	m_CheckpointCollider->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnOverlapBegin);
+	m_bHasCheckpointBeenActivated = false;
 	Super::BeginPlay();
 }
 
