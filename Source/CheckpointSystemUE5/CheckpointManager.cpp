@@ -46,66 +46,82 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 
 	if(!m_bAntiCheatLinearGames)
 	{
-		CheckpointActivation();
+		if(!m_bInteractableCheckpoints)
+		{
+			CheckpointActivation();
 
-		for(ACheckpoint* checkpoint : m_Checkpoints)
-		{
-			if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+			for(ACheckpoint* checkpoint : m_Checkpoints)
 			{
-				checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+				if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+				{
+					checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
 			
-			}
-		}
-	}
-	else
-	{
-		if(!m_CheckpointLookUp.Contains(m_ControllerInstigator))
-		{
-			if(m_CurrentCheckpoint == m_Checkpoints[0])
-			{
-				CheckpointActivation();
+				}
 			}
 		}
 		else
 		{
-			for(ACheckpoint* checkpoint : m_Checkpoints)
-			{
-				if(m_CurrentCheckpoint == m_NextCheckpoint)
-				{
-					CheckpointActivation();
-
-					if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
-					{
-						checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
 			
-					}
-				}
-
-				if(m_Checkpoints.Find(m_CurrentCheckpoint) < m_Checkpoints.Find(m_NextCheckpoint) && m_Checkpoints.Find(m_CurrentCheckpoint) > m_Checkpoints.Find(m_Checkpoints[0]))
-				{
-					CheckpointActivation();
-
-					if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
-					{
-						checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+		}
 		
-					}
-				}
-
+	}
+	else
+	{
+		if(!m_bInteractableCheckpoints)
+		{
+			if(!m_CheckpointLookUp.Contains(m_ControllerInstigator))
+			{
 				if(m_CurrentCheckpoint == m_Checkpoints[0])
 				{
 					CheckpointActivation();
-
-					if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
-					{
-						checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
-		
-					}
 				}
-				
 			}
+			else
+			{
+				for(ACheckpoint* checkpoint : m_Checkpoints)
+				{
+					if(m_CurrentCheckpoint == m_NextCheckpoint)
+					{
+						CheckpointActivation();
+
+						if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+						{
+							checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+			
+						}
+					}
+
+					if(m_Checkpoints.Find(m_CurrentCheckpoint) < m_Checkpoints.Find(m_NextCheckpoint) && m_Checkpoints.Find(m_CurrentCheckpoint) > m_Checkpoints.Find(m_Checkpoints[0]))
+					{
+						CheckpointActivation();
+
+						if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+						{
+							checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+		
+						}
+					}
+
+					if(m_CurrentCheckpoint == m_Checkpoints[0])
+					{
+						CheckpointActivation();
+
+						if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+						{
+							checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+		
+						}
+					}
+				
+				}
+			
+			}
+		}
+		else
+		{
 			
 		}
+		
 		
 	}
 	
@@ -143,6 +159,16 @@ void ACheckpointManager::CheckpointActivation()
 	}
 	else if(!m_bParticleSystemCheck)
 	{
+		if(m_CurrentCheckpoint != m_Checkpoints[m_Checkpoints.Num() - 1])
+		{
+			if(!m_CurrentCheckpoint->m_bHasCheckpointBeenActivated)
+			{
+				m_NextCheckpoint = m_Checkpoints[m_Checkpoints.Find(m_CurrentCheckpoint) + 1];
+			
+			}
+		}
+		m_CurrentCheckpoint->m_bHasCheckpointBeenActivated = true;
+		
 		UpdateCheckpointLookUp();
 		
 	}

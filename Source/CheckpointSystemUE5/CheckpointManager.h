@@ -32,6 +32,9 @@ protected:
 	bool m_bParticleSystemCheck;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool m_bInteractableCheckpoints;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	AController* m_ControllerInstigator;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
