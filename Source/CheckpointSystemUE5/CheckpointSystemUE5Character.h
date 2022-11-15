@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "CheckpointSystemUE5Character.generated.h"
 
+class USphereComponent;
+class ACheckpointManager;
+
 UCLASS(config=Game)
 class ACheckpointSystemUE5Character : public ACharacter
 {
@@ -27,6 +30,7 @@ public:
 
 protected:
 
+	virtual void BeginPlay() override;
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
@@ -51,11 +55,18 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USphereComponent* m_CheckpointInteractionCollider;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ACheckpointManager* m_CheckpointManager;
+	
+	UFUNCTION()
+	void InteractionCheckpoint();
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

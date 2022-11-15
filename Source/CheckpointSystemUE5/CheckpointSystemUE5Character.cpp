@@ -6,9 +6,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ACheckpointSystemUE5Character
@@ -49,6 +51,8 @@ ACheckpointSystemUE5Character::ACheckpointSystemUE5Character()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	m_CheckpointInteractionCollider = CreateDefaultSubobject<USphereComponent>(TEXT("CheckpointInteration"));
+	m_CheckpointInteractionCollider->SetupAttachment(RootComponent);
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -62,10 +66,9 @@ void ACheckpointSystemUE5Character::SetupPlayerInputComponent(class UInputCompon
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
 	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ACheckpointSystemUE5Character::MoveForward);
 	PlayerInputComponent->BindAxis("Move Right / Left", this, &ACheckpointSystemUE5Character::MoveRight);
-
+	PlayerInputComponent->BindAction("CheckpointActive", IE_Pressed, this, &ACheckpointSystemUE5Character::InteractionCheckpoint);
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
@@ -78,6 +81,22 @@ void ACheckpointSystemUE5Character::SetupPlayerInputComponent(class UInputCompon
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &ACheckpointSystemUE5Character::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &ACheckpointSystemUE5Character::TouchStopped);
 }
+
+void ACheckpointSystemUE5Character::InteractionCheckpoint()
+{
+	for(ACheckpoint* checkpoint : m_CheckpointManager->m_Checkpoints)
+	{
+		if(m_CheckpointInteractionCollider->IsOverlappingActor(checkpoint))
+		{
+			if(UKismetSystemLibrary::DoesImplementInterface(checkpoint, UInteractable::StaticClass()))
+			{
+				checkpoint->Execute_Interact(checkpoint, this);
+			}
+			
+		}
+	}
+}
+
 
 void ACheckpointSystemUE5Character::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
@@ -99,6 +118,12 @@ void ACheckpointSystemUE5Character::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
+}
+
+void ACheckpointSystemUE5Character::BeginPlay()
+{
+	m_CheckpointManager = Cast<ACheckpointManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ACheckpointManager::StaticClass()));
+	Super::BeginPlay();
 }
 
 void ACheckpointSystemUE5Character::MoveForward(float Value)

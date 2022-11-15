@@ -19,8 +19,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<ACheckpoint*> m_Checkpoints;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TMap<AController*, int> m_CheckpointLookUp;
@@ -36,9 +34,6 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	AController* m_ControllerInstigator;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	ACheckpoint* m_CurrentCheckpoint;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	ACheckpoint* m_NextCheckpoint;
@@ -62,6 +57,12 @@ protected:
 public:
 	UFUNCTION()
 	FTransform FindPlayerStart(AController* player);
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	ACheckpoint* m_CurrentCheckpoint;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<ACheckpoint*> m_Checkpoints;
 
 	
 };
