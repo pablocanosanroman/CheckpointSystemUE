@@ -62,76 +62,66 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 
 	if(!m_bAntiCheatLinearGames)
 	{
-		if(!m_bInteractableCheckpoints)
-		{
-			CheckpointActivation();
+		CheckpointActivation();
 
-			for(ACheckpoint* checkpoint : m_Checkpoints)
+		for(ACheckpoint* checkpoint : m_Checkpoints)
+		{
+			if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
 			{
-				if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
-				{
-					checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
-			
-				}
+				checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+		
 			}
 		}
-		
-		
 	}
 	else
 	{
-		if(!m_bInteractableCheckpoints)
+		if(!m_CheckpointLookUp.Contains(m_ControllerInstigator))
 		{
-			if(!m_CheckpointLookUp.Contains(m_ControllerInstigator))
+			if(m_CurrentCheckpoint == m_Checkpoints[0])
 			{
+				CheckpointActivation();
+			}
+		}
+		else
+		{
+			for(ACheckpoint* checkpoint : m_Checkpoints)
+			{
+				if(m_CurrentCheckpoint == m_NextCheckpoint)
+				{
+					CheckpointActivation();
+
+					if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+					{
+						checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+		
+					}
+				}
+
+				if(m_Checkpoints.Find(m_CurrentCheckpoint) < m_Checkpoints.Find(m_NextCheckpoint) && m_Checkpoints.Find(m_CurrentCheckpoint) > m_Checkpoints.Find(m_Checkpoints[0]))
+				{
+					CheckpointActivation();
+
+					if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
+					{
+						checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+	
+					}
+				}
+
 				if(m_CurrentCheckpoint == m_Checkpoints[0])
 				{
 					CheckpointActivation();
-				}
-			}
-			else
-			{
-				for(ACheckpoint* checkpoint : m_Checkpoints)
-				{
-					if(m_CurrentCheckpoint == m_NextCheckpoint)
+
+					if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
 					{
-						CheckpointActivation();
-
-						if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
-						{
-							checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
-			
-						}
+						checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
+	
 					}
-
-					if(m_Checkpoints.Find(m_CurrentCheckpoint) < m_Checkpoints.Find(m_NextCheckpoint) && m_Checkpoints.Find(m_CurrentCheckpoint) > m_Checkpoints.Find(m_Checkpoints[0]))
-					{
-						CheckpointActivation();
-
-						if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
-						{
-							checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
-		
-						}
-					}
-
-					if(m_CurrentCheckpoint == m_Checkpoints[0])
-					{
-						CheckpointActivation();
-
-						if(checkpoint != m_CurrentCheckpoint && m_bParticleSystemCheck)
-						{
-							checkpoint->m_CheckpointActivationCheck->SetTemplate(nullptr);
-		
-						}
-					}
-				
 				}
 			
 			}
+		
 		}
-		
-		
 		
 	}
 	

@@ -43,6 +43,11 @@ void ACheckpoint::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	
 }
 
+void ACheckpoint::Interact_Implementation(APawn* instigator)
+{
+	onCheckpointInteracted.Broadcast(this, instigator);
+}
+
 
 
 

@@ -15,7 +15,7 @@ class USphereComponent;
 class ACheckpoint;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCheckpointActivatedSignature,ACheckpoint*, checkpointCollided, APawn*, pawnInstigator);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointDeactivatedSignature, ACheckpoint*, checkpointCollided);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointDeactivatedSignature, ACheckpoint*, checkpointCollided);
 
 UCLASS()
 class CHECKPOINTSYSTEMUE5_API ACheckpoint : public AActor, public IInteractable
@@ -32,8 +32,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "CheckpointEvents")
 	FOnCheckpointActivatedSignature onCheckpointInteracted;
 
-	UPROPERTY(BlueprintAssignable, Category= "CheckpoinEvents")
-	FOnCheckpointDeactivatedSignature onCheckpointDeactivated;
+	/*UPROPERTY(BlueprintAssignable, Category= "CheckpoinEvents")
+	FOnCheckpointDeactivatedSignature onCheckpointDeactivated;*/
 
 	virtual void BeginPlay() override;
 	
@@ -58,4 +58,6 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult);
 
+	virtual void Interact_Implementation(APawn* instigator) override;
+	
 };
