@@ -25,8 +25,8 @@ void ACheckpointManager::BeginPlay()
 
 	for(ACheckpoint* col : m_Checkpoints)
 	{
-		col->onCheckpointActivated.AddDynamic(this, &ACheckpointManager::CheckpointActivated);
-
+		col->onCheckpointActivated.AddDynamic(this, &ACheckpointManager::Handle_CheckpointCollided);
+		col->onCheckpointInteracted.AddDynamic(this, &ACheckpointManager::Handle_CheckpointInteracted);
 		/*if(!m_bAntiCheatLinearGames)
 		{
 			col->m_CheckpointCollider->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
@@ -35,6 +35,22 @@ void ACheckpointManager::BeginPlay()
 	
 	Super::BeginPlay();
 	
+}
+
+void ACheckpointManager::Handle_CheckpointCollided(ACheckpoint* checkpointCollided, APawn* pawnInstigator)
+{
+	if(!m_bInteractableCheckpoints)
+	{
+		CheckpointActivated(checkpointCollided, pawnInstigator);
+	}
+}
+
+void ACheckpointManager::Handle_CheckpointInteracted(ACheckpoint* checkpointCollided, APawn* pawnInstigator)
+{
+	if(m_bInteractableCheckpoints)
+	{
+		CheckpointActivated(checkpointCollided, pawnInstigator);
+	}
 }
 
 void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpointCollided, APawn* pawnInstigator)
@@ -59,10 +75,7 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 				}
 			}
 		}
-		else
-		{
-			
-		}
+		
 		
 	}
 	else
@@ -117,10 +130,7 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 			
 			}
 		}
-		else
-		{
-			
-		}
+		
 		
 		
 	}
@@ -128,6 +138,7 @@ void ACheckpointManager::CheckpointActivated_Implementation(ACheckpoint* checkpo
 }
 
 //This lines of code are for updating the checkpoint that a specific controller is looking, to then set the player start on that checkpoint (Up to the designer)
+
 
 void ACheckpointManager::UpdateCheckpointLookUp()
 {
@@ -184,5 +195,7 @@ FTransform ACheckpointManager::FindPlayerStart(AController* player)
 	}
 	return m_Checkpoints[0]->GetTransform();;
 }
+
+
 
 

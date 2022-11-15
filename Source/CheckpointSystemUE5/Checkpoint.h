@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Interactable.h"
 #include "GameFramework/Actor.h"
 #include "Checkpoint.generated.h"
 
@@ -17,7 +18,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCheckpointActivatedSignature,ACh
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCheckpointDeactivatedSignature, ACheckpoint*, checkpointCollided);
 
 UCLASS()
-class CHECKPOINTSYSTEMUE5_API ACheckpoint : public AActor
+class CHECKPOINTSYSTEMUE5_API ACheckpoint : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 	
@@ -27,6 +28,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "CheckpointEvents")
 	FOnCheckpointActivatedSignature onCheckpointActivated;
+
+	UPROPERTY(BlueprintAssignable, Category = "CheckpointEvents")
+	FOnCheckpointActivatedSignature onCheckpointInteracted;
 
 	UPROPERTY(BlueprintAssignable, Category= "CheckpoinEvents")
 	FOnCheckpointDeactivatedSignature onCheckpointDeactivated;

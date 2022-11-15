@@ -42,11 +42,18 @@ protected:
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	ACheckpoint* m_NextCheckpoint;
+
+	UFUNCTION()
+	void Handle_CheckpointCollided(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
+	
+	UFUNCTION()
+	void Handle_CheckpointInteracted(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void CheckpointActivated(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
 	virtual void CheckpointActivated_Implementation(ACheckpoint* checkpointCollided, APawn* pawnInstigator);
 
+	
 	UFUNCTION()
 	void UpdateCheckpointLookUp();
 
@@ -56,4 +63,5 @@ public:
 	UFUNCTION()
 	FTransform FindPlayerStart(AController* player);
 
+	
 };
