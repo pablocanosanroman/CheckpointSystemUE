@@ -13,7 +13,8 @@ UCLASS()
 class CHECKPOINTSYSTEMUE5_API ACheckpointManager : public AActor
 {
 	GENERATED_BODY()
-
+//private:
+	//static ACheckpointManager* m_CheckpointManager;
 	
 protected:
 	// Called when the game starts or when spawned
@@ -55,6 +56,9 @@ protected:
 	UFUNCTION()
 	void CheckpointActivation();
 public:
+	//UFUNCTION(BlueprintCallable)
+	//static ACheckpointManager* GetCheckpointManagerInstance();
+	
 	UFUNCTION()
 	FTransform FindPlayerStart(AController* player);
 

@@ -7,6 +7,7 @@
 #include "Components/SphereComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
+//ACheckpointManager* ACheckpointManager::m_CheckpointManager = nullptr;
 
 // Called when the game starts or when spawned
 void ACheckpointManager::BeginPlay()
@@ -174,6 +175,15 @@ void ACheckpointManager::CheckpointActivation()
 		
 	}
 }
+
+/*ACheckpointManager* ACheckpointManager::GetCheckpointManagerInstance()
+{
+	if(!m_CheckpointManager)
+	{
+		m_CheckpointManager = NewObject<ACheckpointManager>();
+	}
+	return m_CheckpointManager;
+}*/
 
 
 //Sets where a player needs to start when it dies
