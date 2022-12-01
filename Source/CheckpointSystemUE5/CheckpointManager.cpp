@@ -193,7 +193,7 @@ FTransform ACheckpointManager::FindPlayerStart(AController* player)
 	{
 		return m_Checkpoints[m_CheckpointLookUp[player]]->GetTransform();
 	}
-	return m_Checkpoints[0]->GetTransform();;
+	return m_Checkpoints[0]->GetTransform();
 }
 
 
